@@ -38,35 +38,19 @@ public class AlgoritmoZ {
         return z[i];
     }
     
-    private int z1() {
-        
-        int k = 1;
-        
-        while ((k < cadena.length()) && 
-               (cadena.charAt(k) == cadena.charAt(k - 1))) {
-            
-            k++;
-        }
-        
-        return k - 1;
-    }
-    
     private void calcular() {
         
-        this.z[1] = this.z1();
+        extenderCaja(1, 1, 0);
         
-        // límites de la última z-caja
-        int r = this.z(1);
-        int l = 1;
+        // límites iniciales de la Z-caja
+        int r = z[1];
+        int l = z[1] > 0 ? 1 : 0;
         
         for (int k = 2; k < cadena.length(); k++) {
             
             if (k > r) {
                 
-                for (int i = k; i < cadena.length() && (cadena.charAt(i) == cadena.charAt(i - k)); i++) {
-                    
-                    z[k]++;
-                }
+                extenderCaja(k, k, 0);
                 
                 if (z[k] > 0) {
                     
@@ -86,11 +70,8 @@ public class AlgoritmoZ {
                     
                     z[k] = moduloBeta;
                     
-                    for (int i = 1; coincide(r + i, moduloBeta + i); i++) {
-                        
-                        z[k]++;
-                    }
-                    
+                    extenderCaja(k, r + 1, moduloBeta + 1);
+                 
                     l = k;
                     r = l + z[k] - 1;
                 }
@@ -98,6 +79,13 @@ public class AlgoritmoZ {
         }
     }
     
+    private void extenderCaja(int caja, int desdePosicion, int conPosicion) {
+        
+        for (int i = 0; coincide(desdePosicion + i, conPosicion + i); i++) {
+            
+            z[caja]++;
+        }
+    }
     private boolean coincide(int i, int j) {
         
         return i < cadena.length() && j < cadena.length() &&
