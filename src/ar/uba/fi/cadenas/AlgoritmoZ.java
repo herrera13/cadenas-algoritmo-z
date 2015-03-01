@@ -40,16 +40,16 @@ public class AlgoritmoZ {
     
     private void calcular() {
         
-        extenderCaja(1, 1, 0);
+        /* límites derecho e izquierdo de la última Z-Caja identificada */
+        int r = 0;
+        int l = 0;
         
-        // límites iniciales de la Z-caja
-        int r = z[1];
-        int l = z[1] > 0 ? 1 : 0;
-        
-        for (int k = 2; k < cadena.length(); k++) {
+        for (int k = 1; k < cadena.length(); k++) {
             
+            /* cadena[k] está dentro de una Z-Caja anterior? */
             if (k > r) {
-                
+
+                /* cadena[k] NO está dentro de una Z-Caja */
                 extenderCaja(k, k, 0);
                 
                 if (z[k] > 0) {
@@ -60,17 +60,24 @@ public class AlgoritmoZ {
                 
             } else {
                 
-                int moduloBeta = r - k + 1;
+                /* cadena[k] forma parte de otra Z-Caja? */
 
-                if (z[k - l] < moduloBeta) {
+                int distanciaK_R = r - k + 1;
+                int kPrima = k - l;
+                
+                if (z[kPrima] < distanciaK_R) {
                     
-                    z[k] = z[k - l];
+                    /* la Z-Caja ya fue calculada */
+                    
+                    z[k] = z[kPrima];
                     
                 } else {
                     
-                    z[k] = moduloBeta;
+                    /* la Z-Caja puede más extensa */
                     
-                    extenderCaja(k, r + 1, moduloBeta + 1);
+                    z[k] = distanciaK_R;
+                    
+                    extenderCaja(k, r + 1, distanciaK_R + 1);
                  
                     l = k;
                     r = l + z[k] - 1;
