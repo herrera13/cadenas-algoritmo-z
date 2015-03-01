@@ -1,11 +1,15 @@
 package ar.uba.fi.cadenas;
 
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
+import org.junit.experimental.theories.Theories;
+import org.junit.runner.RunWith;
 
+@RunWith(Theories.class)
 public class TestAlgoritmoZ {
 
     @Test
@@ -51,7 +55,7 @@ public class TestAlgoritmoZ {
     }
     
     @Test
-    public void zEn1ConLogitud2() {
+    public void zEn1Vale1ConCadenaDeLogitud2() {
         
         AlgoritmoZ algoritmo = new AlgoritmoZ("aa");
         
@@ -59,7 +63,7 @@ public class TestAlgoritmoZ {
     }
     
     @Test
-    public void zEn1ConLogintud5() {
+    public void zEn1Vale4ConCadenaDeLogitud5() {
         
         AlgoritmoZ algoritmo = new AlgoritmoZ("aaaaa");
         
@@ -67,10 +71,27 @@ public class TestAlgoritmoZ {
     }
 
     @Test
-    public void zEn1ConLogintud7() {
+    public void zEn1Vale5ConCadenaDeLogitud7() {
         
         AlgoritmoZ algoritmo = new AlgoritmoZ("aaaaaax");
         
         assertThat(algoritmo.z(1), is( equalTo( 5 )));
     }
+    
+    @Test
+    public void zEn2Vale1ConLongitud3() {
+        
+        AlgoritmoZ algoritmo = new AlgoritmoZ("aba");
+    
+        assertThat(algoritmo.z(2), is( equalTo( 1 )));
+    }
+    
+    @Test
+    public void zEn2Vale3ConLongitud5() {
+        
+        AlgoritmoZ algoritmo = new AlgoritmoZ("ababa");
+    
+        assertThat(algoritmo.z(2), is( equalTo( 3 )));
+    }
+    
 }

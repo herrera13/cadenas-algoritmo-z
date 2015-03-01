@@ -5,59 +5,102 @@ public class AlgoritmoZ {
     private String cadena;
     
     private int[] z;
-
+    
     public AlgoritmoZ(String cadena) {
 
         this.cadena = cadena;
 
-        if ((this.cadena != null) && (this.cadena.length() > 1)) {
+        if ((cadena != null) && (cadena.length() > 1)) {
          
-            this.z = new int[this.cadena.length() - 1];
+            z = new int[cadena.length()];
 
-            this.calcular();
+            calcular();
         }
     }
     
     public int longitud() {
         
-        return this.cadena.length();
+        return cadena.length();
     }
 
     public String cadena() {
         
-        return this.cadena;
+        return cadena;
     }
 
     public int z(int i) {
 
-        if ((i < 1) || (i >= this.longitud())) {
+        if ((i < 1) || (i >= cadena.length())) {
             
-            throw new IllegalArgumentException("La posicion debe estar en [1.." + (this.longitud() - 1) + "] :" + i );
+            throw new IllegalArgumentException("La posicion debe estar en [1.." + (cadena.length() - 1) + "] :" + i );
         }
         
-        return this.z[i - 1];
-    }
-    
-    private void z(int i, int valor) {
-        
-        this.z[i - 1] = valor;
+        return z[i];
     }
     
     private int z1() {
         
         int k = 1;
         
-        while ((k < this.cadena.length()) && 
-               (this.cadena.charAt(k) == this.cadena.charAt(k - 1))) {
+        while ((k < cadena.length()) && 
+               (cadena.charAt(k) == cadena.charAt(k - 1))) {
             
             k++;
         }
         
         return k - 1;
     }
-
+    
     private void calcular() {
         
-        this.z(1, this.z1());
+        this.z[1] = this.z1();
+        
+        // límites de la última z-caja
+        int r = this.z(1);
+        int l = 1;
+        
+        for (int k = 2; k < cadena.length(); k++) {
+            
+            if (k > r) {
+                
+                for (int i = k; i < cadena.length() && (cadena.charAt(i) == cadena.charAt(i - k)); i++) {
+                    
+                    z[k]++;
+                }
+                
+                if (z[k] > 0) {
+                    
+                    r = k + z[k] - 1;
+                    l = k;
+                }
+                
+            } else {
+                
+                int moduloBeta = r - k + 1;
+
+                if (z[k - l] < moduloBeta) {
+                    
+                    z[k] = z[k - l];
+                    
+                } else {
+                    
+                    z[k] = moduloBeta;
+                    
+                    for (int i = 1; coincide(r + i, moduloBeta + i); i++) {
+                        
+                        z[k]++;
+                    }
+                    
+                    l = k;
+                    r = l + z[k] - 1;
+                }
+            }
+        }
+    }
+    
+    private boolean coincide(int i, int j) {
+        
+        return i < cadena.length() && j < cadena.length() &&
+               cadena.charAt(i) == cadena.charAt(j);
     }
 }
