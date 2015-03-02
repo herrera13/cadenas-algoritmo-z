@@ -1,9 +1,8 @@
 package ar.uba.fi.cadenas;
 
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
